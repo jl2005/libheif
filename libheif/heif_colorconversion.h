@@ -119,8 +119,8 @@ namespace heif {
   class ColorConversionPipeline
   {
   public:
-    bool construct_pipeline(ColorState input_state,
-                            ColorState target_state,
+    bool construct_pipeline(const ColorState& input_state,
+                            const ColorState& target_state,
                             ColorConversionOptions options = ColorConversionOptions());
 
     std::shared_ptr<HeifPixelImage>

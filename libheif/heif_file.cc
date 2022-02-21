@@ -92,7 +92,7 @@ Error HeifFile::read_from_memory(const void* data, size_t size, bool copy)
 
 Error HeifFile::read(std::shared_ptr<StreamReader> reader)
 {
-  m_input_stream = reader;
+  m_input_stream = std::move(reader);
 
   uint64_t maxSize = std::numeric_limits<int64_t>::max();
   heif::BitstreamRange range(m_input_stream, maxSize);
@@ -844,13 +844,13 @@ void HeifFile::add_iref_reference(uint32_t type, heif_item_id from,
     m_meta_box->append_child_box(m_iref_box);
   }
 
-  m_iref_box->add_reference(type, from, to);
+  m_iref_box->add_reference(type, from, std::move(to));
 }
 
 void HeifFile::set_auxC_property(heif_item_id id, std::string type)
 {
   auto auxC = std::make_shared<Box_auxC>();
-  auxC->set_aux_type(type);
+  auxC->set_aux_type(std::move(type));
 
   int index = m_ipco_box->append_child_box(auxC);
 
@@ -868,7 +868,7 @@ void HeifFile::set_color_profile(heif_item_id id, const std::shared_ptr<const co
 
 
 // TODO: the hdlr box is probably not the right place for this. Into which box should we write comments?
-void HeifFile::set_hdlr_library_info(std::string encoder_plugin_version)
+void HeifFile::set_hdlr_library_info(const std::string& encoder_plugin_version)
 {
   std::stringstream sstr;
   sstr << "libheif (" << LIBHEIF_VERSION << ") / " << encoder_plugin_version;

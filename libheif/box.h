@@ -245,7 +245,6 @@ namespace heif {
 
     std::vector<uint32_t> list_brands() const { return m_compatible_brands; }
 
-    
     void set_major_brand(uint32_t major_brand)
     { m_major_brand = major_brand; }
 
@@ -392,7 +391,7 @@ namespace heif {
     { return m_items; }
 
     Error read_data(const Item& item,
-                    std::shared_ptr<StreamReader> istr,
+                    const std::shared_ptr<StreamReader>& istr,
                     const std::shared_ptr<class Box_idat>&,
                     std::vector<uint8_t>* dest) const;
 
@@ -962,7 +961,7 @@ namespace heif {
 
     std::string dump(Indent&) const override;
 
-    Error read_data(std::shared_ptr<StreamReader> istr,
+    Error read_data(const std::shared_ptr<StreamReader>& istr,
                     uint64_t start, uint64_t length,
                     std::vector<uint8_t>& out_data) const;
 

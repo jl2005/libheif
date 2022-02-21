@@ -415,7 +415,7 @@ namespace heif {
 
     Error interpret_heif_file();
 
-    void remove_top_level_image(std::shared_ptr<Image> image);
+    void remove_top_level_image(const std::shared_ptr<Image>& image);
 
     Error decode_full_grid_image(heif_item_id ID,
                                  std::shared_ptr<HeifPixelImage>& img,

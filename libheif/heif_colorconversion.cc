@@ -28,6 +28,7 @@
 #include <iostream>
 #include <set>
 #include <cmath>
+#include <utility>
 
 using namespace heif;
 
@@ -3006,7 +3007,7 @@ struct Node
   {
     prev_processed_idx = prev;
     op = _op;
-    color_state = state;
+    color_state = std::move(state);
   }
 
   int prev_processed_idx = -1;
@@ -3015,8 +3016,8 @@ struct Node
 };
 
 
-bool ColorConversionPipeline::construct_pipeline(ColorState input_state,
-                                                 ColorState target_state,
+bool ColorConversionPipeline::construct_pipeline(const ColorState& input_state,
+                                                 const ColorState& target_state,
                                                  ColorConversionOptions options)
 {
   m_operations.clear();
@@ -3270,7 +3271,7 @@ std::shared_ptr<HeifPixelImage> heif::convert_colorspace(const std::shared_ptr<H
   ColorState output_state = input_state;
   output_state.colorspace = target_colorspace;
   output_state.chroma = target_chroma;
-  output_state.nclx_profile = target_profile;
+  output_state.nclx_profile = std::move(target_profile);
 
   // If we convert to an interleaved format, we want alpha only if present in the
   // interleaved output format.

@@ -21,6 +21,7 @@
 #include "error.h"
 
 #include <cassert>
+#include <utility>
 
 // static
 const char heif::Error::kSuccess[] = "Success";
@@ -39,7 +40,7 @@ heif::Error::Error(heif_error_code c,
                    std::string msg)
     : error_code(c),
       sub_error_code(sc),
-      message(msg)
+      message(std::move(msg))
 {
 }
 

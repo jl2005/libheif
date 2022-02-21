@@ -408,7 +408,7 @@ HeifContext::~HeifContext()
 Error HeifContext::read(std::shared_ptr<StreamReader> reader)
 {
   m_heif_file = std::make_shared<HeifFile>();
-  Error err = m_heif_file->read(reader);
+  Error err = m_heif_file->read(std::move(reader));
   if (err) {
     return err;
   }
@@ -506,11 +506,11 @@ static bool item_type_is_image(const std::string& item_type)
 }
 
 
-void HeifContext::remove_top_level_image(std::shared_ptr<Image> image)
+void HeifContext::remove_top_level_image(const std::shared_ptr<Image>& image)
 {
   std::vector<std::shared_ptr<Image>> new_list;
 
-  for (auto img : m_top_level_images) {
+  for (const auto& img : m_top_level_images) {
     if (img != image) {
       new_list.push_back(img);
     }
