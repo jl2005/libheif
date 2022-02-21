@@ -1,0 +1,7 @@
+---
+Checks: >
+  -clang-analyzer-security.insecureAPI.strcat,
+  -clang-analyzer-security.insecureAPI.strcpy
+HeaderFilterRegex: .*
+WarningsAsErrors: '*'
+...
